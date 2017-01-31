@@ -1,0 +1,6 @@
+<orders>
+    <order customer="John Lazy">
+        <item module="44-55" amount="3"/>
+        <item module="55-66" amount="6"/>
+    </order>
+</orders>

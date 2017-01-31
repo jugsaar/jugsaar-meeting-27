@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+        <endpoint id="order" uri="file://target/subfolder/Order?delay=2000&amp;delete=true"/>
+        <endpoint id="workshop" uri="file://target/subfolder/Workshop?fileName=${date:now:yyyyMMdd.HHmmss}_${file:name.noext}.txt"/>
+        <endpoint id="warehouse" uri="file://target/subfolder/Warehouse?fileName=${date:now:yyyyMMdd.HHmmss}_${file:name.noext}.txt"/>
+        <route id="Spring DSL">
+            <from ref="order"/>
+            <choice>
+                <when>
+                    <simple>${bodyAs(String)} contains 'module'</simple>
+                    <log message="we got a module order : [${body}]" />
+                    <to  ref="workshop" />
+                </when>
+                <otherwise>
+                    <log message="we got a parts order : [${body}]" />
+                    <to ref="warehouse" />
+                </otherwise>
+            </choice>
+        </route>
+    </camelContext>
+</beans>

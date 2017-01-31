@@ -1,0 +1,6 @@
+<orders>
+    <order customer="John Dilligence">
+        <item part="11-22" amount="5"/>
+        <item part="22-33" amount="10"/>
+    </order>
+</orders>
